@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>EKG.Common.Kafka.Protobuf</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>EvkGroup</Authors>
+    <Description>Protobuf serializer/deserializer extensions for EKG.Common.Kafka</Description>
+    <RepositoryUrl>https://github.com/evgenkovalenko/EKG.Common.Kafka</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EKG.Common.Kafka\EKG.Common.Kafka.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.33.4" />
+  </ItemGroup>
+
+</Project>

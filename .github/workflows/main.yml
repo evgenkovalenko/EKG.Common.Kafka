@@ -1,0 +1,48 @@
+name: Publish to GitHub Packages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4.3.1
+        with:
+          dotnet-version: '10.x'
+
+      - name: Add GitHub Packages source
+        run: dotnet nuget add source --username evgenkovalenko --password ${{ secrets.NUGET_GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/evgenkovalenko/index.json"
+
+      - name: Get base version
+        id: get_version
+        run: |
+          VERSION=$(grep -oP '(?<=<Version>)[^<]+' EKG.Common.Kafka/EKG.Common.Kafka.csproj)
+          MAJOR_MINOR=$(echo $VERSION | cut -d'.' -f1,2)
+          echo "BASE_VERSION=$MAJOR_MINOR" >> $GITHUB_OUTPUT
+          echo "Extracted version: $MAJOR_MINOR"
+
+      - name: Pack libraries
+        run: |
+          dotnet pack EKG.Common.Kafka/EKG.Common.Kafka.csproj --configuration Release /p:Version=${{ steps.get_version.outputs.BASE_VERSION }}.${{ github.run_number }}
+          dotnet pack EKG.Common.Kafka.MessagePack/EKG.Common.Kafka.MessagePack.csproj --configuration Release /p:Version=${{ steps.get_version.outputs.BASE_VERSION }}.${{ github.run_number }}
+          dotnet pack EKG.Common.Kafka.Headers.Abstractions/EKG.Common.Kafka.Headers.Abstractions.csproj --configuration Release /p:Version=${{ steps.get_version.outputs.BASE_VERSION }}.${{ github.run_number }}
+          dotnet pack EKG.Common.Kafka.Headers.Monitoring/EKG.Common.Kafka.Headers.Monitoring.csproj --configuration Release /p:Version=${{ steps.get_version.outputs.BASE_VERSION }}.${{ github.run_number }}
+          dotnet pack EKG.Common.Kafka.Headers.Tracing/EKG.Common.Kafka.Headers.Tracing.csproj --configuration Release /p:Version=${{ steps.get_version.outputs.BASE_VERSION }}.${{ github.run_number }}
+          dotnet pack EKG.Common.Kafka.Metrics.AppMetrics/EKG.Common.Kafka.Metrics.AppMetrics.csproj --configuration Release /p:Version=${{ steps.get_version.outputs.BASE_VERSION }}.${{ github.run_number }}
+          dotnet pack EKG.Common.Kafka.Protobuf/EKG.Common.Kafka.Protobuf.csproj --configuration Release /p:Version=${{ steps.get_version.outputs.BASE_VERSION }}.${{ github.run_number }}
+
+      - name: Publish to GitHub Packages
+        run: dotnet nuget push **/*.nupkg --source "https://nuget.pkg.github.com/evgenkovalenko/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}

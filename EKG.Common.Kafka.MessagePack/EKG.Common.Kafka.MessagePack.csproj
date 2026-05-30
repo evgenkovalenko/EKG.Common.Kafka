@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>EKG.Common.Kafka.MessagePack</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>EvkGroup</Authors>
+    <Description>MessagePack serializer/deserializer extensions for EKG.Common.Kafka</Description>
+    <RepositoryUrl>https://github.com/evgenkovalenko/EKG.Common.Kafka</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EKG.Common.Kafka\EKG.Common.Kafka.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MessagePack" Version="2.5.192" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>EKG.Common.Kafka.Headers.Abstractions</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>EvkGroup</Authors>
+    <Description>Shared header abstractions for EKG.Common.Kafka</Description>
+    <RepositoryUrl>https://github.com/evgenkovalenko/EKG.Common.Kafka</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

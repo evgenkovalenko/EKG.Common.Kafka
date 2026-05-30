@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="EKG.Common.Kafka/EKG.Common.Kafka.csproj" />
+  <Project Path="EKG.Common.Kafka.MessagePack/EKG.Common.Kafka.MessagePack.csproj" />
+  <Project Path="EKG.Common.Kafka.Headers.Abstractions/EKG.Common.Kafka.Headers.Abstractions.csproj" />
+  <Project Path="EKG.Common.Kafka.Headers.Monitoring/EKG.Common.Kafka.Headers.Monitoring.csproj" />
+  <Project Path="EKG.Common.Kafka.Headers.Tracing/EKG.Common.Kafka.Headers.Tracing.csproj" />
+  <Project Path="EKG.Common.Kafka.Metrics.AppMetrics/EKG.Common.Kafka.Metrics.AppMetrics.csproj" />
+  <Project Path="EKG.Common.Kafka.Protobuf/EKG.Common.Kafka.Protobuf.csproj" />
+  <Project Path="EKG.Common.Kafka.Examples/EKG.Common.Kafka.Examples.csproj" />
+</Solution>

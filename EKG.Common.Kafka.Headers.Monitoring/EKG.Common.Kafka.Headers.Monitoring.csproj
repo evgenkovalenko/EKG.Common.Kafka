@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>EKG.Common.Kafka.Headers.Monitoring</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>EvkGroup</Authors>
+    <Description>Monitoring header extensions for EKG.Common.Kafka</Description>
+    <RepositoryUrl>https://github.com/evgenkovalenko/EKG.Common.Kafka</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EKG.Common.Kafka\EKG.Common.Kafka.csproj" />
+    <ProjectReference Include="..\EKG.Common.Kafka.Headers.Abstractions\EKG.Common.Kafka.Headers.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
