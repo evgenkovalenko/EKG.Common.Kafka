@@ -1,4 +1,5 @@
 using App.Metrics;
+using Confluent.SchemaRegistry;
 using EKG.Common.Kafka;
 using EKG.Common.Kafka.Builder;
 using EKG.Common.Kafka.Configuration;
@@ -22,6 +23,13 @@ var metrics = new MetricsBuilder()
     .Report.ToConsole()
     .Build();
 
+var schemaRegistry = new CachedSchemaRegistryClient(new SchemaRegistryConfig
+{
+    Url = configuration["schemaRegistry:url"],
+    BasicAuthCredentialsSource = AuthCredentialsSource.UserInfo,
+    BasicAuthUserInfo = configuration["schemaRegistry:basicAuthUserInfo"]
+});
+
 var siteIds = new HashSet<int> { 5, 6 };
 
 await new HostBuilder().ConfigureServices((_, services) =>
@@ -36,11 +44,11 @@ await new HostBuilder().ConfigureServices((_, services) =>
     services.AddSingleton<KafkaClientBuilder>();
 
     services.AddTopicProducer<int, MyDto>("MyDto_Producer")
-        .SetSerializersMessagePack()
+        .SetSerializersJson(schemaRegistry)
         .Build();
 
     services.AddTopicConsumer<int, MyDtoFiltered>("MyDtoConsumerOverride")
-        .SetDeserializersMessagePack()
+        .SetDeserializersJson()
         .ReportAppMetrics()
         .AddFilter(headers =>
         {
@@ -50,21 +58,21 @@ await new HostBuilder().ConfigureServices((_, services) =>
         .Build();
 
     services.AddTopicConsumer<int, MyDto>("MyDto_Consumer1")
-        .SetDeserializersMessagePack()
+        .SetDeserializersJson()
         .Build();
 
     services.AddTopicConsumer<int, MyAsyncDto>("MyDto_AsyncLoadingConsumer")
-        .SetDeserializersMessagePack()
+        .SetDeserializersJson()
         .SetLoading(true)
         .BuildAsync<AsyncLoadingConsumerUsageExample, int, MyAsyncDto>();
 
     services.AddTopicConsumer<int, MyDtoProcessor>("MyDtoProcessorEOF")
-        .SetDeserializersMessagePack()
+        .SetDeserializersJson()
         .SetPauseOnEOF(configuration.GetSection("kafka:consumers:MyDtoProcessorEOF"))
         .Build();
 
     services.AddTopicConsumer<int, MyDtoProcessorBatching>("MyDtoProcessorBatchingEOF")
-        .SetDeserializersMessagePack()
+        .SetDeserializersJson()
         .SetPauseOnEOF(configuration.GetSection("kafka:consumers:MyDtoProcessorBatchingEOF"))
         .Build();
 
