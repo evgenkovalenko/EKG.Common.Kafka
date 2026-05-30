@@ -35,6 +35,10 @@ await new HostBuilder().ConfigureServices((_, services) =>
     services.Configure<KafkaConfig>(configuration.GetSection("kafka"));
     services.AddSingleton<KafkaClientBuilder>();
 
+    services.AddTopicProducer<int, MyDto>("MyDto_Producer")
+        .SetSerializersMessagePack()
+        .Build();
+
     services.AddTopicConsumer<int, MyDtoFiltered>("MyDtoConsumerOverride")
         .SetDeserializersMessagePack()
         .ReportAppMetrics()

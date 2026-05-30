@@ -9,7 +9,7 @@ using Serilog;
 
 public class KafkaStatsReporter : IHostedService
 {
-    private const string UnassignedPartitionId = "-1";
+    private const long UnassignedPartitionId = -1;
 
     private readonly CancellationTokenSource _cts = new();
     private readonly Channel<string> _statsChannel = Channel.CreateBounded<string>(
@@ -60,7 +60,7 @@ public class KafkaStatsReporter : IHostedService
 
         foreach (var stat in topicStats)
             _metricsRoot.Measure.Gauge.SetValue(GaugeOptions,
-                new MetricTags(new[] { "topic", "partition" }, new[] { stat.Topic, stat.Partition }),
+                new MetricTags(new[] { "topic", "partition" }, new[] { stat.Topic, stat.Partition.ToString() }),
                 stat.ConsumerLagStored);
     }
 

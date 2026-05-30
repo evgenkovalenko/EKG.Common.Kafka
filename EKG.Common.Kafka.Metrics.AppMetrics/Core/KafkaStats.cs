@@ -20,7 +20,7 @@ public class TopicStats
 public class PartitionStats
 {
     [JsonPropertyName("partition")]
-    public string Partition { get; set; }
+    public long Partition { get; set; }
 
     [JsonPropertyName("consumer_lag")]
     public long ConsumerLag { get; set; }
