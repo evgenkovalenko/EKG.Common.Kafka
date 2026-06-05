@@ -77,6 +77,17 @@ public class KafkaClientBuilder
         var baseClientConfig = type == ClientType.Producer ? _kafkaConfig.Config?.Producer : _kafkaConfig.Config?.Consumer;
         if (baseClientConfig != null) result.AddRange(baseClientConfig);
         if (clientConfig?.Config != null && clientConfig.Config.Any()) result.AddRange(clientConfig.Config);
+        var cfg = _kafkaConfig.Config;
+        if (!string.IsNullOrEmpty(cfg?.BootstrapServers))
+            result.Add(new KeyValuePair<string, string>("bootstrap.servers", cfg.BootstrapServers));
+        if (!string.IsNullOrEmpty(cfg?.SecurityProtocol))
+            result.Add(new KeyValuePair<string, string>("security.protocol", cfg.SecurityProtocol));
+        if (!string.IsNullOrEmpty(cfg?.SaslMechanism))
+            result.Add(new KeyValuePair<string, string>("sasl.mechanism", cfg.SaslMechanism));
+        if (!string.IsNullOrEmpty(cfg?.SaslUsername))
+            result.Add(new KeyValuePair<string, string>("sasl.username", cfg.SaslUsername));
+        if (!string.IsNullOrEmpty(cfg?.SaslPassword))
+            result.Add(new KeyValuePair<string, string>("sasl.password", cfg.SaslPassword));
         return result.GroupBy(x => x.Key).Select(g => g.Last()).ToList();
     }
 
