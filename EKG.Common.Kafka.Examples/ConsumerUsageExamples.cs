@@ -31,10 +31,10 @@ public class ConsumerUsageExamples : IHostedService
     public Task StartAsync(CancellationToken cancellationToken)
     {
 #pragma warning disable CS0618
-        _filteredConsumer.TopicObservableMessage().Select(c => c.EventArgs).Subscribe(OnNextFiltered);
+        //_filteredConsumer.TopicObservableMessage().Select(c => c.EventArgs).Subscribe(OnNextFiltered);
         _consumer.TopicObservableMessage().Select(c => c.EventArgs).Subscribe(OnNext);
-        _partitionedConsumer.TopicObservablePartitionEOF().Select(c => c.EventArgs).Subscribe(OnNextPartitionFinished);
-        _partitionedBatchingConsumer.TopicObservablePartitionEOF().Select(c => c.EventArgs).Subscribe(OnNextPartitionBatching);
+        //_partitionedConsumer.TopicObservablePartitionEOF().Select(c => c.EventArgs).Subscribe(OnNextPartitionFinished);
+        //_partitionedBatchingConsumer.TopicObservablePartitionEOF().Select(c => c.EventArgs).Subscribe(OnNextPartitionBatching);
 #pragma warning restore CS0618
         return Task.CompletedTask;
     }

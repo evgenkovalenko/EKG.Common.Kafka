@@ -39,7 +39,7 @@ public class ProducerUsageExamples : IHostedService
                 {
                     _logger.Error(ex, "Failed to produce message {Count}", count);
                 }
-                await Task.Delay(1000, cancellationToken);
+                await Task.Delay(5000, cancellationToken);
             }
         }, cancellationToken);
         return Task.CompletedTask;
